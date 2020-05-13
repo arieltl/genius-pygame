@@ -74,21 +74,45 @@ def draw_scene():
     for circle in circles:
         circle.draw(window)
 game = True
-draw_scene()
+clock = pygame.time.Clock()
+FPS = 30
+actions_list = []
+running_action = False
+draw_scene(None)
+delay = 0
+timer = 0
 while game:
     # ----- Trata eventos
-   
+    dt = clock.tick(FPS)
+
+    if not running_action and len(actions_list) > 0:
+        delay = actions_list[0]["delay"]
+        timer = 0
+        running_action = True
+
+
+    if running_action:
+        timer += dt
+        if timer >= delay:
+           action = actions_list[0]
+           action["function"](*action["arguments"])
+           del actions_list[0]
+           running_action = False
+
+
     for event in pygame.event.get():
         # ----- Verifica consequências
         if event.type in {pygame.KEYUP,pygame.QUIT}:
             game = False
-        elif event.type == pygame.MOUSEBUTTONUP :
+        elif not running_action and event.type == pygame.MOUSEBUTTONUP :
                 # 1 is the left mouse button, 2 is middle, 3 is right.
                 if event.button == 1:
                     
                     for circle in circles:
                         if circle.colision(event.pos):
                             circle.flash(window)
+                            action = {"function": draw_scene,"arguments": (None,), "delay":1000}
+                            actions_list.append(action)
                             print("teste")
                             
                 

@@ -36,5 +36,14 @@ class Circle:
         return self.center.distance_to(Point(position)) <= self.radius
 
     def draw(self,window):
+        self.color.a = 200
         pygame.gfxdraw.aacircle(window,*self.center.position,self.radius,self.color)
+        pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
+
+    def flash(self,window):
+        self.color.a = 255
         pygame.gfxdraw.aacircle(window,*self.center.position,self.radius,self.color)
+        pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
+        self.sound.play(-1,maxtime=1000)
+
+    

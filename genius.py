@@ -1,7 +1,8 @@
 import pygame
 import numpy
 import pygame.gfxdraw
-
+from math import pi,sin,cos
+from pygame.mixer import Sound
 class Note(Sound):
     def __init__(self, frequency, volume=.1):
         self.frequency = frequency/2
@@ -46,4 +47,57 @@ class Circle:
         pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
         self.sound.play(-1,maxtime=1000)
 
+
+pygame.mixer.pre_init(44100, -16, 2)
+pygame.mixer.init()
+pygame.init()
+
+circles = []
+n = 8
+WIDTH,HEIGHT = 1200,800
+window = pygame.display.set_mode((WIDTH, HEIGHT))
+for i in range(n):
+    angle = i*2*pi/n
+    x = int(WIDTH/2 + cos(angle+pi/4) * 200)
+    y = int(HEIGHT/2 + sin(angle+pi/4) * 200)
+    circles.append(Circle((x,y),50,(255,255,255),410))
     
+
+pygame.display.set_caption('Hello World!')
+
+# ----- Inicia estruturas de dados
+game = True
+
+
+def draw_scene():
+    window.fill((0, 0, 0))
+    for circle in circles:
+        circle.draw(window)
+game = True
+draw_scene()
+while game:
+    # ----- Trata eventos
+   
+    for event in pygame.event.get():
+        # ----- Verifica consequências
+        if event.type in {pygame.KEYUP,pygame.QUIT}:
+            game = False
+        elif event.type == pygame.MOUSEBUTTONUP :
+                # 1 is the left mouse button, 2 is middle, 3 is right.
+                if event.button == 1:
+                    
+                    for circle in circles:
+                        if circle.colision(event.pos):
+                            circle.flash(window)
+                            print("teste")
+                            
+                
+                
+
+    # ----- Gera saídas
+    
+    # ----- Atualiza estado do jogo
+    pygame.display.update()  # Mostra o novo frame para o jogador
+
+
+pygame.quit()

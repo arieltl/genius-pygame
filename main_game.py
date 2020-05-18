@@ -5,13 +5,15 @@ from math import pi,sin,cos
 from support_classes import Circle, Note
 from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS
 
+
+circles = []
 def draw_scene(window):
         window.fill((0, 0, 0))
         for circle in circles:
             circle.draw(window)
 
 def game_loop(window):
-    circles = []
+    
     n = 8
     for i in range(n):
         angle = i*2*pi/n

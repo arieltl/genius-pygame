@@ -3,7 +3,7 @@ import numpy
 import pygame.gfxdraw
 from math import pi,sin,cos
 from support_classes import Circle, Note
-from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS
+from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES
 
 
 circles = []
@@ -24,11 +24,11 @@ def game_loop(window):
     
     n = 8
     for i in range(n):
-        circles.append(Circle(50,COLORS[i],410))
+        circles.append(Circle(50,COLORS[i], FREQUENCIES[i]))
     calculate_scene()
         
 
-    pygame.display.set_caption('Hello World!')
+    pygame.display.set_caption('LUCIANIUS!')
 
 
     

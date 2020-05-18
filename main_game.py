@@ -2,13 +2,17 @@ import pygame
 import numpy
 import pygame.gfxdraw
 from math import pi,sin,cos
+from support_classes import Circle, Note
+from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS
 
-def draw_scene():
+def draw_scene(window):
         window.fill((0, 0, 0))
         for circle in circles:
             circle.draw(window)
 
-def game_loop():
+def game_loop(window):
+    circles = []
+    n = 8
     for i in range(n):
         angle = i*2*pi/n
         x = int(WIDTH/2 + cos(angle+pi/4) * 200)
@@ -25,7 +29,7 @@ def game_loop():
     FPS = 30
     actions_list = []
     running_action = False
-    draw_scene(None)
+    draw_scene(window)
     delay = 0
     timer = 0
     while game:
@@ -41,10 +45,10 @@ def game_loop():
         if running_action:
             timer += dt
             if timer >= delay:
-            action = actions_list[0]
-            action["function"](*action["arguments"])
-            del actions_list[0]
-            running_action = False
+                action = actions_list[0]
+                action["function"](*action["arguments"])
+                del actions_list[0]
+                running_action = False
 
 
         for event in pygame.event.get():
@@ -58,7 +62,7 @@ def game_loop():
                         for circle in circles:
                             if circle.colision(event.pos):
                                 circle.flash(window)
-                                action = {"function": draw_scene,"arguments": (None,), "delay":1000}
+                                action = {"function": draw_scene,"arguments": (window,), "delay":1000}
                                 actions_list.append(action)
                                 print("teste")
                     

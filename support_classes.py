@@ -1,6 +1,6 @@
 import pygame
 from pygame.mixer import Sound
-
+import numpy
 
 class Note(Sound):
     def __init__(self, frequency, volume=.1):

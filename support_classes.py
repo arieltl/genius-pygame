@@ -26,7 +26,7 @@ class Point:
 
 
 class Circle:
-    def __init__(self,center,radius,color,frequency):
+    def __init__(self,radius,color,frequency,center = (0,0)):
         self.center = Point(center)
         self.radius = radius
         self.color = pygame.Color(*color)
@@ -45,3 +45,6 @@ class Circle:
         pygame.gfxdraw.aacircle(window,*self.center.position,self.radius,self.color)
         pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
         self.sound.play(-1,maxtime=1000)
+
+    def move_to(self, position):
+        self.center = Point(position)

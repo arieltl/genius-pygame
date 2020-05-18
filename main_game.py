@@ -3,7 +3,7 @@ import numpy
 import pygame.gfxdraw
 from math import pi,sin,cos
 from support_classes import Circle, Note
-from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS
+from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS
 
 
 circles = []
@@ -12,14 +12,20 @@ def draw_scene(window):
         for circle in circles:
             circle.draw(window)
 
+def calculate_scene():
+    for i, circle in enumerate(circles):
+        angle = i*2*pi/len(circles) + pi/4
+        x = int(WIDTH/2 + cos(angle) * DRAW_RADIUS)
+        y = int(HEIGHT/2 + sin(angle) * DRAW_RADIUS)
+        #circles.append(Circle((x,y),50,(255,255,255),410))
+        circle.move_to((x, y))
+
 def game_loop(window):
     
     n = 8
     for i in range(n):
-        angle = i*2*pi/n
-        x = int(WIDTH/2 + cos(angle+pi/4) * 200)
-        y = int(HEIGHT/2 + sin(angle+pi/4) * 200)
-        circles.append(Circle((x,y),50,(255,255,255),410))
+        circles.append(Circle(50,COLORS[i],410))
+    calculate_scene()
         
 
     pygame.display.set_caption('Hello World!')

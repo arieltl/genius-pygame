@@ -5,8 +5,21 @@ from math import pi,sin,cos
 from support_classes import Circle, Note
 from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES
 
-
+sequence = [0, 2, 4, 1, 7, 5, 4]
+input_sequence = []
 circles = []
+actions_list = []
+
+def play_sequence(window):
+    global actions_list
+    actions = []
+    for i in sequence:
+        action = {"function": circles[i].flash, "arguments": (window,), "delay": 0}
+        action2 = {"function": draw_scene, "arguments": (window,), "delay": 1000}
+        actions.append(action)
+        actions.append(action2)
+    actions_list += actions
+
 def draw_scene(window):
         window.fill((0, 0, 0))
         for circle in circles:
@@ -35,11 +48,11 @@ def game_loop(window):
     game = True
     clock = pygame.time.Clock()
     FPS = 30
-    actions_list = []
     running_action = False
     draw_scene(window)
     delay = 0
     timer = 0
+    play_sequence(window)
     while game:
         # ----- Trata eventos
         dt = clock.tick(FPS)

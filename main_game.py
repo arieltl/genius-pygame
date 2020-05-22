@@ -1,14 +1,28 @@
 import pygame
 import numpy
 import pygame.gfxdraw
+from random import randint
 from math import pi,sin,cos
 from support_classes import Circle, Note
 from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES
 
-sequence = [0, 2, 4, 1, 7, 5, 4]
+sequence = []
 input_sequence = []
 circles = []
 actions_list = []
+current_index = 0
+awaiting_input = False
+
+def increment_sequence(window):
+    sequence.append(randint(0, len(circles)-1))
+    play_sequence(window)
+
+def new_input(circle, window):
+    if circles.index(circle) == sequence[current_index]:
+        circle.flash(window)
+        action = {"function": draw_scene,"arguments": (window,), "delay":1000}
+        actions_list.append(action)
+        action = {"function": increment_sequence,"arguments": (window,), "delay":0}
 
 def play_sequence(window):
     global actions_list
@@ -35,7 +49,7 @@ def calculate_scene():
 
 def game_loop(window):
     
-    n = 8
+    n = 4
     for i in range(n):
         circles.append(Circle(50,COLORS[i], FREQUENCIES[i]))
     calculate_scene()
@@ -52,7 +66,8 @@ def game_loop(window):
     draw_scene(window)
     delay = 0
     timer = 0
-    play_sequence(window)
+    increment_sequence(window)
+
     while game:
         # ----- Trata eventos
         dt = clock.tick(FPS)
@@ -82,11 +97,7 @@ def game_loop(window):
                         
                         for circle in circles:
                             if circle.colision(event.pos):
-                                circle.flash(window)
-                                action = {"function": draw_scene,"arguments": (window,), "delay":1000}
-                                actions_list.append(action)
-                                print("teste")
-                    
+                                new_input(circle, window)                
         
         # ----- Atualiza estado do jogo
         pygame.display.update()  # Mostra o novo frame para o jogador

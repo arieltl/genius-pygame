@@ -37,11 +37,13 @@ class Circle:
 
     def draw(self,window):
         self.color.a = 200
-        pygame.gfxdraw.aacircle(window,*self.center.position,self.radius,self.color)
+        pygame.gfxdraw.aacircle(window,*self.center.position,self.radius,(self.color))
         pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
 
     def flash(self,window, time = 1000):
         self.color.a = 255
+        pygame.gfxdraw.aacircle(window,*self.center.position,self.radius+5,(255,255,255))
+        pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius+5,(255,255,255))
         pygame.gfxdraw.aacircle(window,*self.center.position,self.radius,self.color)
         pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
         self.sound.play(-1,maxtime = time)

@@ -9,8 +9,8 @@ from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES
 class GameManager:
     def __init__(self, window):
         self.window = window
-        self.start_game()
-    
+
+        
     def start_game(self):
         self.sequence = []
         self.input_sequence = []
@@ -35,6 +35,11 @@ class GameManager:
                 self.current_index = 0
                 action = {"function": self.increment_sequence, "delay":0}
                 self.actions_list.append(action)
+        else:
+            self.window.fill((255,0,0))
+            action = {"function":self.start_game,"delay":1000}
+            self.actions_list.append(action)
+
 
     def play_sequence(self):
         actions = []

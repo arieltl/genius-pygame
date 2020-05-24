@@ -8,7 +8,7 @@ pygame.mixer.pre_init(44100, -16, 2)
 pygame.mixer.init()
 pygame.init()
 
-font = pygame.font.SysFont(None, 48)
+font = pygame.font.SysFont(None, 40)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 main_menu(window,font)
 game = GameManager(window)

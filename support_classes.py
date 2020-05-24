@@ -58,12 +58,13 @@ class Button:
         self.rect = pygame.Rect(top_left_point,dimensions)
         self.text = font.render(text, True, (255, 255, 255))
         self.color =  pygame.Color(*color)
+        self.top_left = top_left_point
         self.draw(window)
 
     def draw(self,window):
         pygame.draw.rect(window,self.color,self.rect)
-        center = tuple(d/2 for d in self.dimensions) 
-        text_dimensions = tuple(0.8*d for d in self.dimensions)
+        center = tuple(p+d/2 for d,p in zip(self.dimensions,self.top_left)) 
+        text_dimensions = tuple(d*0.8 for d in self.dimensions)
         top_left = tuple(center[i]-text_dimensions[i]/2  for i in range(2))
-        window.blit(self.text,top_left)
+        window.blit(self.text,self.rect)
 

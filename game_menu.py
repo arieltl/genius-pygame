@@ -3,7 +3,7 @@ from CONFIG import WIDTH,HEIGHT
 import pygame
 
 def main_menu(window,font):
-    classic_button = Button((W,0),(200,100),"Classic Genius",(0,255,70),font,window)
+    classic_button = Button((WIDTH/2-40,HEIGHT/2+40),(250,100),"Classic Genius",(0,255,70),font,window)
     while True:
         for event in pygame.event.get():
             pass

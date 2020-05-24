@@ -50,3 +50,20 @@ class Circle:
 
     def move_to(self, position):
         self.center = Point(position)
+
+
+class Button:
+    def __init__(self,top_left_point,dimensions,text,color,font,window):
+        self.dimensions = dimensions
+        self.rect = pygame.Rect(top_left_point,dimensions)
+        self.text = font.render(text, True, (255, 255, 255))
+        self.color =  pygame.Color(*color)
+        self.draw(window)
+
+    def draw(self,window):
+        pygame.draw.rect(window,self.color,self.rect)
+        center = tuple(d/2 for d in self.dimensions) 
+        text_dimensions = tuple(0.8*d for d in self.dimensions)
+        top_left = tuple(center[i]-text_dimensions[i]/2  for i in range(2))
+        window.blit(self.text,top_left)
+

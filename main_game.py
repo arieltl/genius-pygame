@@ -4,11 +4,12 @@ import pygame.gfxdraw
 from random import randint
 from math import pi,sin,cos
 from support_classes import Circle, Note
-from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES
+from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END
 
-class GameManager:
-    def __init__(self, window):
+class GeniusGame:
+    def __init__(self, window, manager):
         self.window = window
+        self.manager = manager
 
         
     def start_game(self):
@@ -18,7 +19,7 @@ class GameManager:
         self.actions_list = []
         self.current_index = 0
         self.awaiting_input = False
-        self.game_loop()
+        return self.game_loop()
 
 
     def increment_sequence(self):
@@ -70,7 +71,6 @@ class GameManager:
             
         pygame.display.set_caption('LUCIANIUS!')
         
-        game = True
         clock = pygame.time.Clock()
         FPS = 30
         running_action = False
@@ -79,7 +79,7 @@ class GameManager:
         timer = 0
         self.increment_sequence()
 
-        while game:
+        while True:
             # ----- Trata eventos
             dt = clock.tick(FPS)
 
@@ -103,9 +103,9 @@ class GameManager:
 
             for event in pygame.event.get():
                 # ----- Verifica consequências
-                if event.type in {pygame.KEYUP,pygame.QUIT}:
-                    game = False
-                elif not running_action and event.type == pygame.MOUSEBUTTONUP :
+                if event.type == pygame.QUIT:
+                    return QUIT
+                elif not running_action and event.type == pygame.MOUSEBUTTONUP:
                         # 1 is the left mouse button, 2 is middle, 3 is right.
                         if event.button == 1:
                             

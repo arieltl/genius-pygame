@@ -52,7 +52,7 @@ class Circle:
         self.center = Point(position)
 
 class Button:
-    def __init__(self, color, x,y,width,height, text='', font_size):
+    def __init__(self, color, x,y,width,height, text='', font_size = 50):
         self.color = color
         self.draw_color = color
         self.x = x

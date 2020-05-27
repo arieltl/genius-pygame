@@ -1,8 +1,8 @@
 from support_classes import Button
-from CONFIG import WIDTH,HEIGHT,COLORS
+from CONFIG import WIDTH,HEIGHT,COLORS, QUIT, INIT, GAME
 import pygame
 
-def main_menu(window,font):
+def main_menu(window, manager):
     b_width = 300
     b_height = 100
     y_pos0 = HEIGHT/2-(40+b_height)
@@ -20,9 +20,19 @@ def main_menu(window,font):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return 0
-            if event.type == pygame.MOUSEMOTION:
+            elif event.type == pygame.MOUSEMOTION:
                 for button in buttons:
                     button.react_to_mouse(event.pos)
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if classic_button.isOver(event.pos):
+                    manager.difficulty = [False, False]
+                elif fast_button.isOver(event.pos):
+                    manager.difficulty = [True, False]
+                elif crazy_button.isOver(event.pos):
+                    manager.difficulty = [False, True]
+                elif lucianius_button.isOver(event.pos):
+                    manager.difficulty = [True, True]
+                return GAME
         for button in buttons:
             button.draw(window,(180,180,180))
         pygame.display.update()

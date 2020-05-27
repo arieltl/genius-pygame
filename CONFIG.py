@@ -11,4 +11,5 @@ FPS = 60
 
 QUIT = 0
 INIT = 1
-END = 2
+GAME = 2
+END = 3

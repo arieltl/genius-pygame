@@ -52,7 +52,7 @@ class Circle:
         self.center = Point(position)
 
 class Button:
-    def __init__(self, color, x,y,width,height, text=''):
+    def __init__(self, color, x,y,width,height, text='', font_size):
         self.color = color
         self.draw_color = color
         self.x = x
@@ -60,6 +60,7 @@ class Button:
         self.width = width
         self.height = height
         self.text = text
+        self.font_size = font_size
 
     def draw(self,win,outline=None):
         #Call this method to draw the button on the screen
@@ -69,7 +70,7 @@ class Button:
         pygame.draw.rect(win, self.draw_color, (self.x,self.y,self.width,self.height),0)
         
         if self.text != '':
-            font = pygame.font.SysFont(None, 58)
+            font = pygame.font.SysFont(None, self.font_size)
             text = font.render(self.text, 1, (0,0,0))
             win.blit(text, (self.x + (self.width/2 - text.get_width()/2), self.y + (self.height/2 - text.get_height()/2)))
 

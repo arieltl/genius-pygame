@@ -9,10 +9,10 @@ def main_menu(window,font):
     x_pos0 = WIDTH/2-(40+b_width)
     y_pos1 = HEIGHT/2 + 40
     x_pos1 = WIDTH/2 + 40
-    classic_button = Button(COLORS[0],x_pos0,y_pos0,b_width,b_height,"classic genius") 
-    fast_button = Button(COLORS[1],x_pos1,y_pos0,b_width,b_height,"fast genius") 
-    crazy_button = Button(COLORS[2],x_pos0,y_pos1,b_width,b_height,"crazy genius")
-    lucianius_button = Button(COLORS[3],x_pos1,y_pos1,b_width,b_height,"lucianius") 
+    classic_button = Button(COLORS[0],x_pos0,y_pos0,b_width,b_height,"CLASSIC GENIUS", 50) 
+    fast_button = Button(COLORS[1],x_pos1,y_pos0,b_width,b_height,"FAST GENIUS", 50) 
+    crazy_button = Button(COLORS[2],x_pos0,y_pos1,b_width,b_height,"CRAZY GENIUS", 50)
+    lucianius_button = Button(COLORS[3],x_pos1,y_pos1,b_width,b_height,"LUCIANIUS", 50) 
     
     buttons = [classic_button,fast_button,crazy_button,lucianius_button]
     

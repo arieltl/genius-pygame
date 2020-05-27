@@ -16,7 +16,7 @@ class GameManager:
             if state == INIT:
                 state = main_menu(window, self)
             elif state == GAME:
-                game.start_game()
+                state = game.start_game()
             elif state == END:
                 pass
             elif state == QUIT:

@@ -1,5 +1,4 @@
 import pygame
-import numpy
 import pygame.gfxdraw
 from random import randint
 from math import pi,sin,cos
@@ -12,8 +11,11 @@ class GeniusGame:
     def __init__(self, window, manager):
         self.window = window
         self.manager = manager
+        self.luci = pygame.image.load(os.path.join("sprites","Lucy High Tech.png")).convert_alpha()
+        self.luci_sound = pygame.mixer.Sound(os.path.join("sprites","scream.ogg"))
+        self.buzzer_sound = pygame.mixer.Sound(os.path.join("sprites","buzzer.wav"))
 
-        
+
     def start_game(self):
         print("startGame")
         self.sequence = []
@@ -25,6 +27,7 @@ class GeniusGame:
         self.difficulty = self.manager.difficulty
         self.waiting_time = 300
         self.flash_time = 1000
+        self.game_over = False
         return self.game_loop()
 
 
@@ -71,12 +74,7 @@ class GeniusGame:
                 action = {"function": self.increment_sequence, "delay":500}
                 self.actions_list.append(action)
         else:
-            self.window.fill((255,0,0))
-            action = {"function":self.start_game,"delay":1000}
-            self.actions_list.append(action)
-            if self.difficulty == [True, True]:
-                image = pygame.image.load(os.path.join("sprites","Lucy High Tech.png")).convert_alpha()
-                self.window.blit(image,(0, 0))
+            self.end_game()
             
 
 
@@ -101,6 +99,18 @@ class GeniusGame:
         self.window.blit(text, (20, 20))
 
 
+    def end_game(self):
+        self.window.fill((255,0,0))
+        action = {"function":self.set_game_over,"arguments":(True,),"delay":1500}
+        self.actions_list.append(action)
+        if self.difficulty == [True, True]:
+            self.window.blit(self.luci,(WIDTH/2-self.luci.get_width()/2, HEIGHT/2-self.luci.get_height()/2))
+            self.luci_sound.play()
+        else:
+            self.buzzer_sound.play()
+
+    def set_game_over(self,over):
+        self.game_over = over
 
     def game_loop(self):
         for i in range(4):
@@ -122,6 +132,8 @@ class GeniusGame:
             # ----- Trata eventos
             dt = clock.tick(FPS)
 
+            if self.game_over == True:
+                return END
             if not running_action and len(self.actions_list) > 0:
                 delay = self.actions_list[0]["delay"]
                 timer = 0
@@ -136,7 +148,8 @@ class GeniusGame:
                         action["function"](*action["arguments"])
                     else:
                         action["function"]()
-                    del self.actions_list[0]
+                    if len(self.actions_list) > 0:
+                        del self.actions_list[0]
                     running_action = False
 
 
@@ -147,7 +160,6 @@ class GeniusGame:
                     return QUIT
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.window.fill((0, 0, 0))
                         return INIT
                 elif self.awaiting_input and event.type == pygame.MOUSEBUTTONDOWN:
                         # 1 is the left mouse button, 2 is middle, 3 is right.

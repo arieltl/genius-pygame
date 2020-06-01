@@ -21,13 +21,14 @@ class GeniusGame:
         self.current_index = 0
         self.awaiting_input = False
         self.difficulty = self.manager.difficulty
-        print(self.difficulty)
+        self.waiting_time = 300
+        self.flash_time = 1000
         return self.game_loop()
 
 
     def increment_sequence(self):
         round = len(self.sequence)
-        if self.difficulty[1] and round % 2 == 0 and round !=0:
+        if self.difficulty[1] and round % 1 == 0 and round !=0 and len(self.circles) < 8:
             print("one more")
             next_i = len(self.circles)
             self.circles.append(Circle(50,COLORS[next_i],FREQUENCIES[next_i]))
@@ -35,6 +36,9 @@ class GeniusGame:
             print(COLORS[round])
             self.calculate_scene()
             self.draw_scene()
+        if self.difficulty[0] and round % 1 == 0 and round !=0:
+            self.flash_time = int(self.flash_time * (0.85 if self.flash_time > 400 else 1))
+            self.waiting_time = int(self.waiting_time * (0.95 if self.waiting_time > 200 else 1))
         
         self.sequence.append(randint(0, len(self.circles)-1))
         self.play_sequence()
@@ -44,8 +48,8 @@ class GeniusGame:
     def play_sequence(self):
         actions = []
         for i in self.sequence:
-            action = {"function": self.circles[i].flash, "arguments": (self.window,), "delay": 300}
-            action2 = {"function": self.draw_scene, "delay": 1000}
+            action = {"function": self.circles[i].flash, "arguments": (self.window, self.flash_time), "delay": self.waiting_time}
+            action2 = {"function": self.draw_scene, "delay": self.flash_time}
             
             actions.append(action)
             actions.append(action2)

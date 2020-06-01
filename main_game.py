@@ -4,8 +4,9 @@ import pygame.gfxdraw
 from random import randint
 from math import pi,sin,cos
 from support_classes import Circle, Note
-from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END
+from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END, INIT
 import os
+
 
 class GeniusGame:
     def __init__(self, window, manager):
@@ -29,7 +30,7 @@ class GeniusGame:
 
     def increment_sequence(self):
         round = len(self.sequence)
-        if self.difficulty[1] and round % 1 == 0 and round !=0 and len(self.circles) < 8:
+        if self.difficulty[1] and round % 4 == 0 and round !=0 and len(self.circles) < 8:
             print("one more")
             next_i = len(self.circles)
             self.circles.append(Circle(50,COLORS[next_i],FREQUENCIES[next_i]))
@@ -37,7 +38,7 @@ class GeniusGame:
             print(COLORS[round])
             self.calculate_scene()
             self.draw_scene()
-        if self.difficulty[0] and round % 1 == 0 and round !=0:
+        if self.difficulty[0] and round % 4 == 0 and round !=0:
             self.flash_time = int(self.flash_time * (0.85 if self.flash_time > 400 else 1))
             self.waiting_time = int(self.waiting_time * (0.95 if self.waiting_time > 200 else 1))
         
@@ -144,6 +145,10 @@ class GeniusGame:
                 if event.type == pygame.QUIT:
                     print("quit")
                     return QUIT
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.window.fill((0, 0, 0))
+                        return INIT
                 elif self.awaiting_input and event.type == pygame.MOUSEBUTTONDOWN:
                         # 1 is the left mouse button, 2 is middle, 3 is right.
                         if event.button == 1:

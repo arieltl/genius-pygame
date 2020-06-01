@@ -5,6 +5,7 @@ from random import randint
 from math import pi,sin,cos
 from support_classes import Circle, Note
 from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END
+#import os
 
 class GeniusGame:
     def __init__(self, window, manager):
@@ -72,6 +73,9 @@ class GeniusGame:
             self.window.fill((255,0,0))
             action = {"function":self.start_game,"delay":1000}
             self.actions_list.append(action)
+            if self.difficulty == [True, True]:
+                pygame.load("Lucy High Tech.png").convert_alpha()
+                pygame.blit((WIDTH, HEIGHT))
             
 
 
@@ -91,12 +95,11 @@ class GeniusGame:
         self.window.fill((0, 0, 0))
         for circle in self.circles:
             circle.draw(self.window)
-        font = pygame.font.SysFont(None, 52)
-        text = pygame.font.Font.render(font, "Rodada: {}".format(len(self.sequence)), 1, (255, 255, 255))
+        font = pygame.font.SysFont(None, 48)
+        text = font.render("Rodada: {}".format(len(self.sequence)), 1, (255, 255, 255))
         self.window.blit(text, (20, 20))
 
 
-    
 
     def game_loop(self):
         for i in range(4):

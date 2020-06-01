@@ -88,9 +88,13 @@ class GeniusGame:
             circle.move_to((x, y))
 
     def draw_scene(self):
-            self.window.fill((0, 0, 0))
-            for circle in self.circles:
-                circle.draw(self.window)
+        self.window.fill((0, 0, 0))
+        for circle in self.circles:
+            circle.draw(self.window)
+        font = pygame.font.SysFont(None, 52)
+        text = pygame.font.Font.render(font, "Rodada: {}".format(len(self.sequence)), 1, (255, 255, 255))
+        self.window.blit(text, (20, 20))
+
 
     
 

@@ -5,7 +5,7 @@ from random import randint
 from math import pi,sin,cos
 from support_classes import Circle, Note
 from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END
-#import os
+import os
 
 class GeniusGame:
     def __init__(self, window, manager):
@@ -74,8 +74,8 @@ class GeniusGame:
             action = {"function":self.start_game,"delay":1000}
             self.actions_list.append(action)
             if self.difficulty == [True, True]:
-                pygame.load("Lucy High Tech.png").convert_alpha()
-                pygame.blit((WIDTH, HEIGHT))
+                image = pygame.image.load(os.path.join("sprites","Lucy High Tech.png")).convert_alpha()
+                self.window.blit(image,(0, 0))
             
 
 

@@ -3,7 +3,8 @@ from main_game import GeniusGame
 from CONFIG import WIDTH, HEIGHT, DRAW_RADIUS, INIT, END, QUIT, GAME
 from game_menu import main_menu
 from game_over_menu import game_over
-
+import os
+import json
 #class que gerencia telas do jogo
 class GameManager:
     def __init__(self):
@@ -12,7 +13,13 @@ class GameManager:
         pygame.mixer.pre_init(44100, -16, 2)
         pygame.mixer.init()
         pygame.init()
-
+        if not os.path.exists("scores.json"):
+            data = { "[True, True]" : 0,
+            "[True, False]" : 0,
+            "[False, True] ": 0,
+            "[False, False]" : 0}
+            with open("scores.json", 'w') as file:
+                json.dump(data,file,indent=4)
         # modificadores de dificuldade do jogo.
         self.difficulty = [False, False]
 

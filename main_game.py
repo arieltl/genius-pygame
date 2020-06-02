@@ -5,6 +5,7 @@ from math import pi,sin,cos
 from support_classes import Circle, Note
 from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END, INIT,FPS
 import os
+import json
 
 
 class GeniusGame:
@@ -27,6 +28,7 @@ class GeniusGame:
         self.waiting_time = 300
         self.flash_time = 1000
         self.game_over = False
+        self.get_highscores()
         #inicia um jogo
         return self.game_loop()
 
@@ -102,8 +104,11 @@ class GeniusGame:
         for circle in self.circles:
             circle.draw(self.window)
         font = pygame.font.SysFont(None, 48)
-        text = font.render("Rodada: {}".format(len(self.sequence)), 1, (255, 255, 255))
-        self.window.blit(text, (20, 20))
+        score_t = font.render("Score: {}".format(max(len(self.sequence)-1,0)), True, (255, 255, 255))
+        highscore_t = font.render("Your highscore: {}".format(self.highscore), True, (255, 255, 255))
+        self.window.blit(score_t, (20, 20))
+        self.window.blit(highscore_t, (20, 30 + score_t.get_height()))
+
 
     # encerra o jogo
     def end_game(self):
@@ -118,10 +123,26 @@ class GeniusGame:
         else:
             #caso contrario toca som de buzina
             self.buzzer_sound.play()
+        with open("scores.json", "r+") as file:
+            data = json.load(file)
+            data.update({str(self.difficulty) : max(0,len(self.sequence)-1)})
+            file.seek(0)
+            json.dump(data, file,indent=4)
+            file.truncate()
 
 
     def set_game_over(self,over):
         self.game_over = over
+        
+
+
+    def get_highscores(self):
+        with open("scores.json", "r") as file:
+            data = json.load(file)
+            self.highscore = data[str(self.difficulty)]
+
+    def set_highscores(self):
+        pass
 
     #loop de jogo
     def game_loop(self):

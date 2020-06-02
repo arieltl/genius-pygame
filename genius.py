@@ -16,7 +16,7 @@ class GameManager:
         if not os.path.exists("scores.json"):
             data = { "[True, True]" : 0,
             "[True, False]" : 0,
-            "[False, True] ": 0,
+            "[False, True]" : 0,
             "[False, False]" : 0}
             with open("scores.json", 'w') as file:
                 json.dump(data,file,indent=4)

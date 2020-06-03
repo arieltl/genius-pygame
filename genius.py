@@ -12,6 +12,8 @@ class GameManager:
         #incializa pygame
        
         pygame.init()
+
+        #Verifica se um JSON com records exsite e se nao, o cria
         if not os.path.exists("scores.json"):
             data = { "[True, True]" : 0,
             "[True, False]" : 0,
@@ -19,9 +21,11 @@ class GameManager:
             "[False, False]" : 0}
             with open("scores.json", 'w') as file:
                 json.dump(data,file,indent=4)
+
         # modificadores de dificuldade do jogo.
         self.difficulty = [False, False]
 
+        #cria janela do app
         window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('LUCIANIUS!')
         #criando um obejto de jogo

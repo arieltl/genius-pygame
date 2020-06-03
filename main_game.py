@@ -30,6 +30,7 @@ class GeniusGame:
         self.waiting_time = 300
         self.flash_time = 1000
         self.game_over = False
+        #pega record do modo no arquivo json
         self.get_highscores()
         #inicia um jogo
         return self.game_loop()
@@ -37,22 +38,27 @@ class GeniusGame:
     #adciona um botao na sequencia
     def increment_sequence(self):
         round = len(self.sequence)
-        if self.difficulty[1] and round % 2 == 0 and round !=0 and len(self.circles) < 8:
+        #ajusta dificuladade de acordo com modo de jogo
+        self.increase_difficulty()
+        self.sequence.append(randint(0, len(self.circles)-1))
+        #reproduz a sequencia correta
+        self.play_sequence()
+        
+    def increase_difficulty(self):
+        #adicona novos botoes de acordo com modo de jogo
+        if self.difficulty[1] and round % 3 == 0 and round !=0 and len(self.circles) < 8:
             next_i = len(self.circles)
             self.circles.append(Circle(50,COLORS[next_i],FREQUENCIES[next_i]))
             print(round)
             print(COLORS[round])
             self.calculate_scene()
             self.draw_scene()
-
-        if self.difficulty[0] and round % 1 == 0 and round !=0:
+       
+        #diminui tempo de reproducao da sequencia de acordo com modo de jo
+        if self.difficulty[0] and round % 2 == 0 and round !=0:
             self.flash_time = int(self.flash_time * (0.85 if self.flash_time > 300 else 1))
             self.waiting_time = int(self.waiting_time * (0.95 if self.waiting_time > 200 else 1))
         
-        self.sequence.append(randint(0, len(self.circles)-1))
-        self.play_sequence()
-        
-
    #reproduz a sequencia correta
     def play_sequence(self):
         actions = []
@@ -87,7 +93,7 @@ class GeniusGame:
             
 
 
-    
+    #habilita e desabilita input do usuario
     def enable_input(self,enable):
         self.awaiting_input = enable
 
@@ -125,12 +131,16 @@ class GeniusGame:
         else:
             #caso contrario toca som de buzina
             self.buzzer_sound.play()
-        with open("scores.json", "r+") as file:
-            data = json.load(file)
-            data.update({str(self.difficulty) : max(0,len(self.sequence)-1)})
-            file.seek(0)
-            json.dump(data, file,indent=4)
-            file.truncate()
+        score = max(0,len(self.sequence)-1)
+
+        #caso bata o record salve a pontuacao no arquivo JSON
+        if score > self.highscore:
+            with open("scores.json", "r+") as file:
+                data = json.load(file)
+                data.update({str(self.difficulty) : score})
+                file.seek(0)
+                json.dump(data, file,indent=4)
+                file.truncate()
 
 
     def set_game_over(self,over):

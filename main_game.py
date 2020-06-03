@@ -7,14 +7,16 @@ from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END, IN
 import os
 import json
 
-
 class GeniusGame:
     def __init__(self, window, manager):
         self.window = window
         self.manager = manager
-        self.luci = pygame.image.load(os.path.join("sprites","Lucy High Tech.png")).convert_alpha()
+        luci = pygame.image.load(os.path.join("sprites","luci.png")).convert_alpha()
         self.luci_sound = pygame.mixer.Sound(os.path.join("sprites","scream.ogg"))
         self.buzzer_sound = pygame.mixer.Sound(os.path.join("sprites","buzzer.wav"))
+        height = HEIGHT-50
+        width = int(luci.get_width() * height / luci.get_height())
+        self.luci = pygame.transform.scale(luci,(width,height))
 
     def start_game(self):
         #reseta valor de propriedades para comecar um novo jogo
@@ -35,7 +37,7 @@ class GeniusGame:
     #adciona um botao na sequencia
     def increment_sequence(self):
         round = len(self.sequence)
-        if self.difficulty[1] and round % 4 == 0 and round !=0 and len(self.circles) < 8:
+        if self.difficulty[1] and round % 2 == 0 and round !=0 and len(self.circles) < 8:
             next_i = len(self.circles)
             self.circles.append(Circle(50,COLORS[next_i],FREQUENCIES[next_i]))
             print(round)
@@ -43,7 +45,7 @@ class GeniusGame:
             self.calculate_scene()
             self.draw_scene()
 
-        if self.difficulty[0] and round % 2 == 0 and round !=0:
+        if self.difficulty[0] and round % 1 == 0 and round !=0:
             self.flash_time = int(self.flash_time * (0.85 if self.flash_time > 300 else 1))
             self.waiting_time = int(self.waiting_time * (0.95 if self.waiting_time > 200 else 1))
         

@@ -2,6 +2,12 @@ from support_classes import Button
 from CONFIG import WIDTH,HEIGHT,COLORS, QUIT, INIT, GAME
 import pygame
 import os
+
+pygame.mixer.pre_init(44100, -16, 2)
+pygame.mixer.init()
+
+music = pygame.mixer.Sound(os.path.join("sprites","korobeiniki.wav"))
+music.set_volume(0.2)
 def main_menu(window, manager):
 
 
@@ -22,7 +28,7 @@ def main_menu(window, manager):
     lucianius_button = Button(COLORS[3],x_pos1,y_pos1,b_width,b_height,"LUCIANIUS", 50) 
     
     buttons = [classic_button,fast_button,crazy_button,lucianius_button]
-    
+    music.play(-1)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -33,16 +39,16 @@ def main_menu(window, manager):
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if classic_button.isOver(event.pos):
                     manager.difficulty = [False, False]
-                    return GAME
+                    return go_to_game()
                 elif fast_button.isOver(event.pos):
                     manager.difficulty = [True, False]
-                    return GAME
+                    return go_to_game()
                 elif crazy_button.isOver(event.pos):
                     manager.difficulty = [False, True]
-                    return GAME
+                    return go_to_game()
                 elif lucianius_button.isOver(event.pos):
                     manager.difficulty = [True, True]
-                    return GAME
+                    return go_to_game()
                 
         window.fill((0,0,0))
         window.blit(text,(WIDTH/2 - text.get_width()/2,90))
@@ -50,3 +56,7 @@ def main_menu(window, manager):
         for button in buttons:
             button.draw(window,(180,180,180))
         pygame.display.update()
+
+        def go_to_game():
+            music.stop()
+            return GAME

@@ -10,8 +10,7 @@ class GameManager:
     def __init__(self):
 
         #incializa pygame
-        pygame.mixer.pre_init(44100, -16, 2)
-        pygame.mixer.init()
+       
         pygame.init()
         if not os.path.exists("scores.json"):
             data = { "[True, True]" : 0,

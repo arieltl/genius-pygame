@@ -37,7 +37,6 @@ class GeniusGame:
 
     #adciona um botao na sequencia
     def increment_sequence(self):
-        round = len(self.sequence)
         #ajusta dificuladade de acordo com modo de jogo
         self.increase_difficulty()
         self.sequence.append(randint(0, len(self.circles)-1))
@@ -45,6 +44,7 @@ class GeniusGame:
         self.play_sequence()
         
     def increase_difficulty(self):
+        round = len(self.sequence)
         #adicona novos botoes de acordo com modo de jogo
         if self.difficulty[1] and round % 3 == 0 and round !=0 and len(self.circles) < 8:
             next_i = len(self.circles)

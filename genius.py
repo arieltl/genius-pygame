@@ -1,3 +1,4 @@
+#importa dependências 
 import pygame
 from main_game import GeniusGame
 from CONFIG import WIDTH, HEIGHT, DRAW_RADIUS, INIT, END, QUIT, GAME
@@ -5,6 +6,7 @@ from game_menu import main_menu
 from game_over_menu import game_over
 import os
 import json
+
 #class que gerencia telas do jogo
 class GameManager:
     def __init__(self):
@@ -13,7 +15,7 @@ class GameManager:
        
         pygame.init()
 
-        #Verifica se um JSON com records exsite e se nao, o cria
+        #Verifica se existe um JSON com records e se não, o cria
         if not os.path.exists("scores.json"):
             data = { "[True, True]" : 0,
             "[True, False]" : 0,
@@ -22,7 +24,7 @@ class GameManager:
             with open("scores.json", 'w') as file:
                 json.dump(data,file,indent=4)
 
-        # modificadores de dificuldade do jogo.
+        # modificadores de dificuldade do jogo
         self.difficulty = [False, False]
 
         #cria janela do app
@@ -40,7 +42,8 @@ class GameManager:
                 state = game.start_game()
             elif state == END:
                 state = game_over(window)
-            
+                
+        #sai do jogo   
         pygame.quit()
 
 if __name__ == "__main__":

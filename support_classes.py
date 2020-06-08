@@ -1,4 +1,4 @@
-#importa dependencias
+#importa dependências
 import pygame
 from pygame.mixer import Sound
 import numpy

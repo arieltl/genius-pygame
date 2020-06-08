@@ -32,7 +32,7 @@ class GeniusGame:
         self.waiting_time = 300
         self.flash_time = 1000
         self.game_over = False
-        #pega record do modo no arquivo json
+        #pega record do modo no arquivo JSON
         self.get_highscore()
         #inicia um jogo
         return self.game_loop()
@@ -42,7 +42,7 @@ class GeniusGame:
         #ajusta dificuladade de acordo com modo de jogo
         self.increase_difficulty()
         self.sequence.append(randint(0, len(self.circles)-1))
-        #reproduz a sequencia correta
+        #reproduz a sequência correta
         self.play_sequence()
         
     def increase_difficulty(self):
@@ -61,7 +61,7 @@ class GeniusGame:
             self.flash_time = int(self.flash_time * (0.85 if self.flash_time > 300 else 1))
             self.waiting_time = int(self.waiting_time * (0.95 if self.waiting_time > 200 else 1))
         
-   #reproduz a sequencia correta
+   #reproduz a sequência correta
     def play_sequence(self):
         actions = []
         for i in self.sequence:
@@ -73,17 +73,17 @@ class GeniusGame:
         await_input = {"function": self.enable_input, "arguments": (True,), "delay": 0}
         self.actions_list += actions + [await_input]
 
-    #lida com input nos botes
+    #lida com input nos botões
     def new_input(self, circle):
         self.enable_input(False)
-        #caso o tenha pressionado o botao correto
+        #caso o tenha pressionado o botão correto
         if self.circles.index(circle) == self.sequence[self.current_index]:
-            #piscar o botao
+            #piscar o botão
             circle.flash(self.window, 300)
             await_input = {"function": self.enable_input, "arguments": (True,), "delay": 0}
             action = {"function": self.draw_scene, "delay":300}
             self.actions_list.append(action)
-            #esperar proximo input ou inicar proxima rodada
+            #esperar próximo input ou iniciar próxima rodada
             self.current_index += 1
             if self.current_index == len(self.sequence):
                 self.current_index = 0
@@ -93,17 +93,17 @@ class GeniusGame:
             else:
                 self.actions_list.append(await_input)
         else:
-            #caso tenha pressionado botao incorreto encerrar jogo
+            #caso tenha pressionado botão incorreto encerrar jogo
             self.end_game()
             
 
 
-    #habilita e desabilita input do usuario
+    #habilita e desabilita input do usuário
     def enable_input(self,enable):
         self.awaiting_input = enable
 
-    #posiciona os botes ao redor de uma circuferencia imaginaria com raio
-    # DRAW_RADIUS e com espacamentos em angulo iguais
+    #posiciona os botões ao redor de uma circuferência imaginária com raio
+    # DRAW_RADIUS e com espaçamentos em ângulo iguais
     def calculate_scene(self):
         for i, circle in enumerate(self.circles):
             angle = i*2*pi/len(self.circles) + pi/4
@@ -129,12 +129,12 @@ class GeniusGame:
         self.window.fill((255,0,0))
         action = {"function":self.set_game_over,"arguments":(True,),"delay":1500}
         self.actions_list.append(action)
-        #caso modo seja lucianius aparece imagem e toca som de grito
+        #caso modo seja "lucianius" aparece imagem e toca som de grito
         if self.difficulty == [True, True]:
             self.window.blit(self.luci,(WIDTH/2-self.luci.get_width()/2, HEIGHT/2-self.luci.get_height()/2))
             self.luci_sound.play()
         else:
-            #caso contrario toca som de buzina
+            #caso contrário toca som de buzina
             self.buzzer_sound.play()
         self.set_highscore()
 
@@ -151,7 +151,7 @@ class GeniusGame:
 
     #define o highscore
     def set_highscore(self):
-        #caso bata o record salve a pontuacao no arquivo JSON
+        #caso bata o record salve a pontuação no arquivo JSON
         score = max(0,len(self.sequence)-1)
         if score > self.highscore:
             with open("scores.json", "r+") as file:
@@ -163,16 +163,16 @@ class GeniusGame:
 
     #loop de jogo
     def game_loop(self):
-        #cria botoes inicias
+        #cria botões inicias
         for i in range(4):
             self.circles.append(Circle(50,COLORS[i], FREQUENCIES[i]))
             print(COLORS[i])
         self.calculate_scene()
         self.draw_scene()
-        #adiciona primerio circulo a sequencia correta 
+        #adiciona primerio círculo a sequência correta 
         self.increment_sequence()
 
-        #variaveis para sistema de delay de funcoes
+        #variáveis para sistema de delay de funções
         running_action = False
         delay = 0
         timer = 0
@@ -185,7 +185,7 @@ class GeniusGame:
             if self.game_over == True:
                 return END
 
-            #sistema de delay que nao deixa jogo irresponsivel
+            #sistema de delay que não deixa jogo irresponsivel
             if not running_action and len(self.actions_list) > 0:
                 delay = self.actions_list[0]["delay"]
                 timer = 0
@@ -212,7 +212,7 @@ class GeniusGame:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         return INIT
-                #lidar com botao pressionado
+                #lidar com botão pressionado
                 elif self.awaiting_input and event.type == pygame.MOUSEBUTTONDOWN:
                         if event.button == 1:
                             

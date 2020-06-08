@@ -47,7 +47,7 @@ def game_over(window):
                 for button in buttons:
                     button.react_to_mouse(event.pos)
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                #para de tocar a musica 
+                #para de tocar a música 
                 #troca para o menu ou joga de novo
                 if play_again_b.isOver(event.pos):
                     music.stop()

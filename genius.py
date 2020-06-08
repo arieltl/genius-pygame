@@ -30,7 +30,7 @@ class GameManager:
         #cria janela do app
         window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('LUCIANIUS!')
-        #criando um obejto de jogo
+        #criando um objeto de jogo
         game = GeniusGame(window, self)
 
         #controle de fluxo das telas do jogo
@@ -42,7 +42,7 @@ class GameManager:
                 state = game.start_game()
             elif state == END:
                 state = game_over(window)
-                
+
         #sai do jogo   
         pygame.quit()
 

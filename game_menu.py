@@ -1,4 +1,4 @@
-#importa dependencias
+#importa dependências
 from support_classes import Button
 from CONFIG import WIDTH,HEIGHT,COLORS, QUIT, INIT, GAME
 import pygame
@@ -60,8 +60,8 @@ def main_menu(window, manager):
         for button in buttons:
             button.draw(window,(180,180,180))
         pygame.display.update()
-        
-#configura a dificuldade do jogo escolhida e para a musica
+
+#configura a dificuldade do jogo escolhida e para a música
 def go_to_game(difficulty, manager):
     manager.difficulty = difficulty
     music.stop()

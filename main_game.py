@@ -82,13 +82,16 @@ class GeniusGame:
             circle.flash(self.window, 300)
             await_input = {"function": self.enable_input, "arguments": (True,), "delay": 0}
             action = {"function": self.draw_scene, "delay":300}
-            self.actions_list += [action,await_input]
+            self.actions_list.append(action)
             #esperar proximo input ou inicar proxima rodada
             self.current_index += 1
             if self.current_index == len(self.sequence):
                 self.current_index = 0
+                self.enable_input(False)
                 action = {"function": self.increment_sequence, "delay":500}
                 self.actions_list.append(action)
+            else:
+                self.actions_list.append(await_input)
         else:
             #caso tenha pressionado botao incorreto encerrar jogo
             self.end_game()

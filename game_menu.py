@@ -60,7 +60,8 @@ def main_menu(window, manager):
         for button in buttons:
             button.draw(window,(180,180,180))
         pygame.display.update()
-
+        
+#configura a dificuldade do jogo escolhida e para a musica
 def go_to_game(difficulty, manager):
     manager.difficulty = difficulty
     music.stop()

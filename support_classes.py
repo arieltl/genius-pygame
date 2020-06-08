@@ -1,7 +1,10 @@
+#importa dependencias
 import pygame
 from pygame.mixer import Sound
 import numpy
 
+#classe adaptada de: https://github.com/Zelgius/pytheory/blob/master/pytheory/play.py
+#classe que gera o som de onda senoidal com base em frequências  
 class Note(Sound):
     def __init__(self, frequency, volume=.1):
         self.frequency = frequency/2
@@ -17,14 +20,16 @@ class Note(Sound):
     def frame_value(self,amplitude,sample_rate,i):
         return amplitude * numpy.sin(2.0 * numpy.pi * self.frequency * i / sample_rate)
 
+#classe que representa um ponto em um plano cartesiano 
 class Point:
     def __init__(self,position):
         self.position = position
-        
+
+    #função que calcula a distância entre 2 pontos   
     def distance_to(self,point):
         return ((self.position[0] - point.position[0])**2 + (self.position[1] - point.position[1])**2) ** (1/2)
 
-
+#classe de botão circular
 class Circle:
     def __init__(self,radius,color,frequency,center = (0,0)):
         self.center = Point(center)
@@ -32,14 +37,17 @@ class Circle:
         self.color = pygame.Color(*color)
         self.sound = Note(frequency)
 
+    #função que calcula se uma posição está dentro do botão
     def colision(self,position):
         return self.center.distance_to(Point(position)) <= self.radius
 
+    #desenha botão na tela
     def draw(self,window):
         self.color.a = 200
         pygame.gfxdraw.aacircle(window,*self.center.position,self.radius,(self.color))
         pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
 
+    #pisca o botão
     def flash(self,window, time = 1000):
         self.color.a = 255
         pygame.gfxdraw.aacircle(window,*self.center.position,self.radius+5,(255,255,255))
@@ -48,9 +56,11 @@ class Circle:
         pygame.gfxdraw.filled_circle(window,*self.center.position,self.radius,self.color)
         self.sound.play(-1,maxtime = time)
 
+    #muda a posição dos botões
     def move_to(self, position):
         self.center = Point(position)
 
+#classe de botões retângulares adaptada de: https://www.youtube.com/watch?v=4_9twnEduFA
 class Button:
     def __init__(self, color, x,y,width,height, text='', font_size = 50,font_name = None):
         self.color = color
@@ -63,8 +73,8 @@ class Button:
         self.font_size = font_size
         self.font = font_name
 
+    #desenha botão
     def draw(self,win,outline=None, ):
-        #Call this method to draw the button on the screen
         if outline:
             pygame.draw.rect(win, outline, (self.x-2,self.y-2,self.width+4,self.height+4),0)
             
@@ -83,6 +93,7 @@ class Button:
             
         return False
 
+    #muda a cor do botão caso o cursor esteja sobre ele
     def react_to_mouse(self,pos):
         if self.isOver(pos):
             self.draw_color = (255,255,255)

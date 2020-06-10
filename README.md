@@ -6,6 +6,8 @@ Primeiro semestre de Engenharia
 
 LUCIANIUS - um jogo fortemente inspirado no clássico brinquedo genius
 
+Vídeo descrevendo o funcionamento do jogo:
+https://www.youtube.com/watch?v=_h7g9pJYS6A&feature=youtu.be
 
                                                                                                                                
     ********************************************************************************************************.                      

@@ -6,6 +6,8 @@ Primeiro semestre de Engenharia
 
 LUCIANIUS - um jogo fortemente inspirado no clássico brinquedo genius
 
+*OBSERVAÇÂO*: Rodar apenas o genius.py
+
 Vídeo descrevendo o funcionamento do jogo:
 https://www.youtube.com/watch?v=_h7g9pJYS6A&feature=youtu.be
 

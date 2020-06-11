@@ -51,8 +51,6 @@ class GeniusGame:
         if self.difficulty[1] and round % 3 == 0 and round !=0 and len(self.circles) < 8:
             next_i = len(self.circles)
             self.circles.append(Circle(50,COLORS[next_i],FREQUENCIES[next_i]))
-            print(round)
-            print(COLORS[round])
             self.calculate_scene()
             self.draw_scene()
        

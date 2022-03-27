@@ -19,11 +19,46 @@ class MainMenu(GameScreen):
         self.music.set_volume(0.2)
 
     def initialize(self):
+        self.setup_screen()
+        return self.main_loop()
+        
 
+    def main_loop(self):
+        #toca música do Tetris infinitamente
+        self.music.play(-1)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return QUIT
+                elif event.type == pygame.MOUSEMOTION:
+                    #botão reconhece o mouse
+                    for button in self.buttons:
+                        button.react_to_mouse(event.pos)
+                #caso botão seja pressionado:
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    #inicia o jogo com a dificuldade de acordo com o botão pressionado
+                    if self.buttons[0].isOver(event.pos):
+                        return self.go_to_game([False, False])
+                    elif self.buttons[1].isOver(event.pos):
+                        return self.go_to_game([True, False])
+                    elif self.buttons[2].isOver(event.pos):
+                        return self.go_to_game([False, True])
+                    elif self.buttons[3].isOver(event.pos):
+                        return self.go_to_game([True, True])
+
+            #apaga e atualiza o frame   
+            self.window.fill((0,0,0))
+            self.window.blit(self.text,(WIDTH/2 - self.text.get_width()/2,90))
+
+            for button in self.buttons:
+                button.draw(self.window,(180,180,180))
+            pygame.display.update()
+
+    def setup_screen(self):
         #cria o título do jogo
         font_path = os.path.join("sprites","PressStart2P-Regular.ttf")
         font = pygame.font.Font(font_path,80)
-        text = font.render("LUCIANIUS",True,(255,255,80))
+        self.text = font.render("LUCIANIUS",True,(255,255,80))
 
         #define as dimensões, coordenadas e cria botões
         b_width = 300
@@ -36,37 +71,7 @@ class MainMenu(GameScreen):
         fast_button = Button(COLORS[1],x_pos1,y_pos0,b_width,b_height,"FAST GENIUS", 50) 
         crazy_button = Button(COLORS[2],x_pos0,y_pos1,b_width,b_height,"CRAZY GENIUS", 50)
         lucianius_button = Button(COLORS[3],x_pos1,y_pos1,b_width,b_height,"LUCIANIUS", 50) 
-        buttons = [classic_button,fast_button,crazy_button,lucianius_button]
-
-        #toca música do Tetris infinitamente
-        self.music.play(-1)
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return QUIT
-                elif event.type == pygame.MOUSEMOTION:
-                    #botão reconhece o mouse
-                    for button in buttons:
-                        button.react_to_mouse(event.pos)
-                #caso botão seja pressionado:
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    #inicia o jogo com a dificuldade de acordo com o botão pressionado
-                    if classic_button.isOver(event.pos):
-                        return self.go_to_game([False, False])
-                    elif fast_button.isOver(event.pos):
-                        return self.go_to_game([True, False])
-                    elif crazy_button.isOver(event.pos):
-                        return self.go_to_game([False, True])
-                    elif lucianius_button.isOver(event.pos):
-                        return self.go_to_game([True, True])
-
-            #apaga e atualiza o frame   
-            self.window.fill((0,0,0))
-            self.window.blit(text,(WIDTH/2 - text.get_width()/2,90))
-
-            for button in buttons:
-                button.draw(self.window,(180,180,180))
-            pygame.display.update()
+        self.buttons = [classic_button,fast_button,crazy_button,lucianius_button]
 
     #configura a dificuldade do jogo escolhida e para a música
     def go_to_game(self,difficulty):

@@ -56,7 +56,7 @@ class GameOver(GameScreen):
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     #para de tocar a música 
                     #troca para o menu ou joga de novo
-                    if self.buttons[0].play_again_b.isOver(event.pos):
+                    if self.buttons[0].isOver(event.pos):
                         self.music.stop()
                         return GAME
                     elif self.buttons[1].isOver(event.pos):

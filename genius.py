@@ -1,11 +1,14 @@
 #importa dependências 
 import pygame
+from game_over_menu import GameOver
 from main_game import GeniusGame
 from CONFIG import WIDTH, HEIGHT, DRAW_RADIUS, INIT, END, QUIT, GAME
-from game_menu import main_menu
-from game_over_menu import game_over
+from game_menu import MainMenu
+
 import os
 import json
+
+from screen import GameScreen
 
 #class que gerencia telas do jogo
 class GameManager:
@@ -31,17 +34,14 @@ class GameManager:
         window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('LUCIANIUS!')
         #criando um objeto de jogo
-        game = GeniusGame(window, self)
-
+ 
+        screens = {GAME: GeniusGame(window, self),INIT:MainMenu(window, self),END:GameOver(window,self)}
         #controle de fluxo das telas do jogo
         state = INIT
         while state != QUIT:
-            if state == INIT:
-                state = main_menu(window, self)
-            elif state == GAME:
-                state = game.start_game()
-            elif state == END:
-                state = game_over(window)
+            screen: GameScreen = screens[state]
+            state = screen.initialize()
+
 
         #sai do jogo   
         pygame.quit()

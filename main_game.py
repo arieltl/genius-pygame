@@ -5,20 +5,24 @@ from random import randint
 from math import pi,sin,cos
 from support_classes import Circle, Note
 from CONFIG import HEIGHT,WIDTH, DRAW_RADIUS, COLORS, FREQUENCIES, QUIT, END, INIT,FPS
+from screen import GameScreen
 import os
 import json
 
 #definindo a classe GeniusGame (lógica do jogo) 
-class GeniusGame:
+class GeniusGame(GameScreen):
+
     def __init__(self, window, manager):
-        self.window = window
-        self.manager = manager
+        super().__init__(window,manager)
         luci = pygame.image.load(os.path.join("sprites","luci.png")).convert_alpha()
         self.luci_sound = pygame.mixer.Sound(os.path.join("sprites","scream.ogg"))
         self.buzzer_sound = pygame.mixer.Sound(os.path.join("sprites","buzzer.wav"))
         height = HEIGHT-50
         width = int(luci.get_width() * height / luci.get_height())
         self.luci = pygame.transform.scale(luci,(width,height))
+
+    def initialize(self):
+        return self.start_game()
 
     def start_game(self):
         #reseta valor de propriedades para comecar um novo jogo

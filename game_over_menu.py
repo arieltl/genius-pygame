@@ -19,7 +19,7 @@ class GameOver(GameScreen):
         #cria texto GAME OVER
         font_path = os.path.join("sprites","PressStart2P-Regular.ttf")
         font = pygame.font.Font(font_path,80)
-        text = font.render("GAME OVER",True,COLORS[0])
+        self.text = font.render("GAME OVER",True,COLORS[0])
     
         #dimensões dos botões
         b_width = 370
